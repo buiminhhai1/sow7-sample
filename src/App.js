@@ -2,9 +2,9 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import './App.css';
 
-const KOBITON_API_KEY = 'ce356d7d-1a6b-4a02-b613-916102fed0e2';
+const KOBITON_API_KEY = '865d9bab-d514-4396-aa1c-43e0c397f016';
 const KOBITON_USER_NAME = 'doraemon';
-const KOBITON_API_URL = 'http://localhost:3000';
+const KOBITON_API_URL = 'http://3.0.95.43:3000';
 
 // This function follow the KOBTION authentication documents
 // This is basic way, You can enhance it with more security if you can
@@ -15,6 +15,9 @@ const getBasicAuthenHeaderKobiton = () => {
 
 function App() {
   const [url, setUrl] = useState(null);
+  const [height, setHeight] = useState("480");
+  const [width, setWidth] = useState('640');
+
   document.title = 'Embedded IFrame';
   useEffect(() => {
     const headers = {authorization: getBasicAuthenHeaderKobiton()};
@@ -29,7 +32,7 @@ function App() {
   }, [])
 
   const handleIFrameTask = (e) => {
-    if (e.origin !== 'http://localhost:8182') {
+    if (e.origin !== 'http://3.0.05.43:8182') {
       return;
     }
     console.log('origin', e.origin);
@@ -43,11 +46,25 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div style={{display: 'flex', justifyContent: 'space-around'}}>
+    <div style={{width: '20%', marginTop: '200px'}}>
+    <h2 style={{textAlign: 'center'}}>Modify height and weight</h2>
+      <div sytle={{display: 'flex' }}>
+        <label style={{marginRight: '20px'}}>Input height</label>
+        <input value={height} onChange={(e) => setHeight(e.target.value)} />
+      </div>
+      <div style={{marginTop: '20px', display: 'flex'}}>
+        <label style={{marginRight: '20px'}}>Input Width</label>
+        <input value={width} onChange={(e) => setWidth(e.target.value)} />
+      </div>
+    </div>
+    
+    <div>
       <h1>SOW 7 Embedded iFrame Demo</h1>
-      <iframe width="640" height="480" title="Embedded IFrame to customer website" id="kobiton-embedded-iframe"
+      <iframe width="640" height={height} title="Embedded IFrame to customer website" id="kobiton-embedded-iframe"
         src={url? url['website']: ''}
       />
+    </div>
     </div>
   );
 }
