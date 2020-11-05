@@ -39,7 +39,7 @@ function App() {
     console.log('data passing', e.data);
     
     if (e.data.type === 'MANUAL_DEVICE_CONNECTION_CHANGED' && e.data.connected) {
-      // handle set width height here
+    
     }
 
 
