@@ -61,7 +61,7 @@ function App() {
     
     <div>
       <h1>SOW 7 Embedded iFrame Demo</h1>
-      <iframe width="640" height={height} title="Embedded IFrame to customer website" id="kobiton-embedded-iframe"
+      <iframe width={width} height={height} title="Embedded IFrame to customer website" id="kobiton-embedded-iframe"
         src={url? url['website']: ''}
       />
     </div>
