@@ -19,30 +19,62 @@ function App() {
   const [width, setWidth] = useState('640');
 
   document.title = 'Embedded IFrame';
+
   useEffect(() => {
     const headers = {authorization: getBasicAuthenHeaderKobiton()};
     const fetchIframeUrl = async () => {
-      const urls = await axios.get(`${KOBITON_API_URL}/v1/viewers/url`, {headers})
-        .then(res => res.data);
-      setUrl(urls)
+      const url = await axios.get(`${KOBITON_API_URL}/v1/viewers/url`, {headers})
+        .then(res => res.data['website']);
+      
+      const currentIframeUrl = getIframeURL();
+      if (currentIframeUrl !== url) {
+        setUrl(url);
+        setIframeURL(url);
+      } else {
+        const urlCurrentIframe = getIframeLocationUrl();
+        const finalUrl = urlCurrentIframe ? urlCurrentIframe : url;
+        setUrl(finalUrl);
+      }
     }
     fetchIframeUrl();
 
+    const handleIFrameTask = (e) => {
+      if (e.origin !== 'http://3.0.95.43:8182') {
+        return;
+      }
+
+      // You can do more thing from event message embedded iframe send to your website
+      if (e.data.type === 'MANUAL_DEVICE_CONNECTION_CHANGED' && e.data.connected) {
+      
+      }
+      
+      // This codes will show you how to implement reload pay to keep manual sessions
+      if (e.data.currentUrl) {
+        handleChangeIframeURL(e.data.currentUrl);
+      }
+    }
+
     window.addEventListener('message', handleIFrameTask);
+
+    const cleanUp = () => {
+      window.removeEventListener('message', handleIFrameTask);
+    }
+    return cleanUp;
   }, [])
 
-  const handleIFrameTask = (e) => {
-    if (e.origin !== 'http://3.0.05.43:8182') {
-      return;
-    }
-    console.log('origin', e.origin);
-    console.log('data passing', e.data);
-    
-    if (e.data.type === 'MANUAL_DEVICE_CONNECTION_CHANGED' && e.data.connected) {
-    
-    }
+  const handleChangeIframeURL = (url) => {
+    localStorage.setItem('IFRAME_CURRENT_URL', url);
+  }
 
+  const getIframeLocationUrl = () => {
+    return localStorage.getItem('IFRAME_CURRENT_URL'); 
+  }
 
+  const setIframeURL = (url) => {
+    localStorage.setItem('IFRAME_URL', url);
+  }
+  const getIframeURL = () => {
+    return localStorage.getItem('IFRAME_URL');
   }
 
   return (
@@ -62,7 +94,7 @@ function App() {
     <div>
       <h1>SOW 7 Embedded iFrame Demo</h1>
       <iframe width={width} height={height} title="Embedded IFrame to customer website" id="kobiton-embedded-iframe"
-        src={url? url['website']: ''}
+        src={url? url: ''}
       />
     </div>
     </div>
