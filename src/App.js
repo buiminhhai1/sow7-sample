@@ -2,8 +2,8 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import './App.css';
 
-const KOBITON_API_KEY = 'e1b1df2c-c717-4cd4-894b-7f7ba97d8423';
-const KOBITON_USER_NAME = 'haibui';
+const KOBITON_API_KEY = 'b6fca361-2341-4ec1-b134-27f414429791';
+const KOBITON_USER_NAME = 'kobiton-org-demo';
 const KOBITON_API_URL = 'https://api.kobiton.com';
 
 // This function follow the KOBTION authentication documents
