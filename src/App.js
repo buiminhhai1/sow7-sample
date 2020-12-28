@@ -4,7 +4,7 @@ import './App.css';
 
 const KOBITON_API_KEY = 'e1b1df2c-c717-4cd4-894b-7f7ba97d8423';
 const KOBITON_USER_NAME = 'haibui';
-const KOBITON_API_URL = 'http://localhost:3000';
+const KOBITON_API_URL = 'https://api.kobiton.com';
 
 // This function follow the KOBTION authentication documents
 // This is basic way, You can enhance it with more security if you can
